@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Love Story</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FF69B4',
+            secondary: '#FFB6C1'
+          },
+          borderRadius: {
+            'none': '0px',
+            'sm': '4px',
+            DEFAULT: '8px',
+            'md': '12px',
+            'lg': '16px',
+            'xl': '20px',
+            '2xl': '24px',
+            '3xl': '32px',
+            'full': '9999px',
+            'button': '8px'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .floating-hearts {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 1.5rem;
+      color: rgba(255, 182, 193, 0.6);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .heart:nth-child(odd) { animation-delay: -2s; }
+    .heart:nth-child(even) { animation-delay: -4s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10%, 90% { opacity: 1; }
+      50% { transform: translateY(-10vh) rotate(180deg); }
+    }
+
+    .glass-morphism {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .glow-effect { box-shadow: 0 0 20px rgba(255, 105, 180, 0.3); }
+
+    .pulse-animation {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .text-shadow {
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+
+    .photo-placeholder {
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, #FFE6E6, #FFB6C1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 105, 180, 0.7);
+      font-size: 2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .photo-placeholder:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-pink-100 via-rose-50 to-pink-200 overflow-x-hidden">
+
+  <!-- Floating hearts -->
+  <div class="floating-hearts">
+    <div class="heart" style="left: 10%; animation-duration: 8s;">💖</div>
+    <div class="heart" style="left: 20%; animation-duration: 6s;">💕</div>
+    <div class="heart" style="left: 30%; animation-duration: 7s;">❤️</div>
+    <div class="heart" style="left: 40%; animation-duration: 9s;">💗</div>
+    <div class="heart" style="left: 50%; animation-duration: 5s;">💝</div>
+    <div class="heart" style="left: 60%; animation-duration: 8s;">💖</div>
+    <div class="heart" style="left: 70%; animation-duration: 6s;">💕</div>
+    <div class="heart" style="left: 80%; animation-duration: 7s;">❤️</div>
+    <div class="heart" style="left: 90%; animation-duration: 9s;">💗</div>
+  </div>
+
+  <!-- Main content -->
+  <div class="relative z-10 min-h-screen flex flex-col items-center justify-center p-4 space-y-8 pb-24">
+
+    <!-- Clock -->
+    <div class="glass-morphism rounded-3xl p-8 max-w-4xl w-full text-center glow-effect">
+      <div class="space-y-6">
+        <div class="text-6xl md:text-8xl font-bold text-primary text-shadow" id="clock">00:00:00</div>
+        <div class="text-xl md:text-2xl text-gray-700 font-medium" id="date">Loading...</div>
+      </div>
+    </div>
+
+    <!-- Monthsary -->
+    <div class="glass-morphism rounded-3xl p-8 max-w-4xl w-full text-center glow-effect">
+      <div class="text-4xl md:text-6xl font-['Dancing_Script'] text-primary text-shadow pulse-animation" id="monthsary-message">
+        Happy 1st Monthsary! 💕
+      </div>
+    </div>
+
+    <!-- Days together -->
+    <div class="glass-morphism rounded-3xl p-8 max-w-4xl w-full text-center glow-effect">
+      <div class="space-y-4">
+        <h3 class="text-2xl md:text-3xl font-['Dancing_Script'] text-primary text-shadow">Days Together</h3>
+        <div class="text-5xl md:text-7xl font-bold text-primary pulse-animation" id="days-counter">0</div>
+        <div class="text-lg text-gray-600">Every day with you is a blessing 💖</div>
+      </div>
+    </div>
+
+    <!-- Our Memories -->
+    <div class="bg-gradient-to-br from-pink-100 to-pink-200 rounded-3xl p-8 max-w-4xl w-full mx-auto shadow-lg backdrop-blur-md bg-opacity-60 border border-white/30">
+      <div class="space-y-6">
+        <h3 class="text-2xl md:text-3xl font-['Dancing_Script'] text-pink-600 text-center drop-shadow-sm">Our Memories 📸</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-center">
+          <div class="bg-pink-200/70 rounded-xl flex items-center justify-center aspect-square overflow-hidden">
+            <img src="a.jpg" alt="Memory A" class="w-full h-full object-cover rounded-lg">
+          </div>
+          <div class="bg-pink-200/70 rounded-xl flex items-center justify-center aspect-square overflow-hidden">
+            <img src="b.jpg" alt="Memory B" class="w-full h-full object-cover rounded-lg">
+          </div>
+          <div class="bg-pink-200/70 rounded-xl flex items-center justify-center aspect-square overflow-hidden">
+            <img src="c.jpg" alt="Memory C" class="w-full h-full object-cover rounded-lg">
+          </div>
+          <div class="bg-pink-200/70 rounded-xl flex items-center justify-center aspect-square overflow-hidden">
+            <img src="d.jpg" alt="Memory D" class="w-full h-full object-cover rounded-lg">
+          </div>
+          <div class="bg-pink-200/70 rounded-xl flex items-center justify-center aspect-square overflow-hidden">
+            <img src="e.jpg" alt="Memory E" class="w-full h-full object-cover rounded-lg">
+          </div>
+          <div class="bg-pink-200/70 rounded-xl flex items-center justify-center aspect-square overflow-hidden">
+            <img src="f.jpg" alt="Memory F" class="w-full h-full object-cover rounded-lg">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Milestone -->
+    <div class="glass-morphism rounded-3xl p-8 max-w-4xl w-full text-center glow-effect">
+      <div class="space-y-4">
+        <h3 class="text-2xl md:text-3xl font-['Dancing_Script'] text-primary text-shadow">Next Milestone</h3>
+        <div class="text-xl md:text-2xl text-gray-700" id="next-milestone">Calculating...</div>
+        <div class="text-3xl md:text-4xl font-bold text-primary" id="countdown">00:00:00:00</div>
+        <div class="text-sm text-gray-500">Days : Hours : Minutes : Seconds</div>
+      </div>
+    </div>
+
+    <!-- Quote -->
+    <div class="glass-morphism rounded-3xl p-6 max-w-4xl w-full text-center glow-effect">
+      <div class="text-lg md:text-xl font-['Dancing_Script'] text-primary text-shadow">
+        "Every love story is beautiful, but ours is my favorite" 💕
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Footer -->
+  <footer class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-pink-100/80 backdrop-blur-md px-6 py-2 rounded-full shadow-md text-sm text-pink-700 z-50">
+    Created with ❤️ by 
+    <a href="https://www.facebook.com/izanami.billie/" target="_blank" class="font-semibold underline hover:text-pink-500 transition">
+      Billie
+    </a> 
+    <span id="year"></span>
+  </footer>
+
+  <!-- JS for time/date -->
+  <script>
+    document.getElementById('year').textContent = '© ' + new Date().getFullYear();
+
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toLocaleTimeString('en-US', {hour12: false});
+      document.getElementById('date').textContent = now.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+
+  <!-- Relationship milestone logic -->
+  <script>
+    function updateRelationshipInfo() {
+      const start = new Date("2025-05-19");
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const diffTime = now - start;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+      let months = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
+      if (now.getDate() < start.getDate()) months--;
+
+      const years = Math.floor(months / 12);
+      const remMonths = months % 12;
+
+      const expectedDate = new Date(now.getFullYear(), now.getMonth(), start.getDate());
+      let message = "";
+      const isExactDate = today.getTime() === expectedDate.getTime();
+
+      if (isExactDate && months < 12) {
+        const suffix = months === 1 ? "st" : months === 2 ? "nd" : months === 3 ? "rd" : "th";
+        message = `Happy ${months}${suffix} Monthsary! 💕`;
+      } else if (isExactDate && remMonths === 0) {
+        const suffix = years === 1 ? "st" : years === 2 ? "nd" : years === 3 ? "rd" : "th";
+        message = `Happy ${years}${suffix} Anniversary! ❤️`;
+      } else {
+        message = `${years ? `${years} year${years > 1 ? "s" : ""}` : ""}${years && remMonths ? " and " : ""}${remMonths ? `${remMonths} month${remMonths > 1 ? "s" : ""}` : ""} together 💖`;
+      }
+
+      document.getElementById('monthsary-message').textContent = message;
+      document.getElementById('days-counter').textContent = diffDays;
+
+      const nextMilestone = new Date(start);
+      let nextLabel = "";
+
+      if (months + 1 < 12) {
+        nextMilestone.setMonth(start.getMonth() + (months + 1));
+        if (nextMilestone.getMonth() !== (start.getMonth() + months + 1) % 12) nextMilestone.setDate(0);
+        const nextSuffix = (months + 1) === 1 ? "st" : (months + 1) === 2 ? "nd" : (months + 1) === 3 ? "rd" : "th";
+        nextLabel = `${months + 1}${nextSuffix} Monthsary`;
+      } else {
+        nextMilestone.setFullYear(start.getFullYear() + (years + 1));
+        const nextSuffix = (years + 1) === 1 ? "st" : (years + 1) === 2 ? "nd" : (years + 1) === 3 ? "rd" : "th";
+        nextLabel = `${years + 1}${nextSuffix} Anniversary`;
+      }
+
+      document.getElementById('next-milestone').textContent = nextLabel;
+
+      const timeDiff = nextMilestone - now;
+      if (timeDiff > 0) {
+        const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+        document.getElementById('countdown').textContent =
+          `${String(days).padStart(2, '0')}:${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      }
+    }
+    setInterval(updateRelationshipInfo, 1000);
+    updateRelationshipInfo();
+  </script>
+</body>
+</html>
