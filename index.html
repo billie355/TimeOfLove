@@ -11,7 +11,7 @@
 
         body {
             font-family: 'Outfit', sans-serif;
-            overflow: hidden; /* Prevent scrollbars from the parallax elements */
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* Star Animation */
@@ -27,13 +27,6 @@
             100% { transform: translateY(0px) rotate(0deg); }
         }
 
-        /* Floating 404 Text Animation */
-        @keyframes drift {
-            0% { transform: translate(0, 0); }
-            50% { transform: translate(10px, 15px); }
-            100% { transform: translate(0, 0); }
-        }
-
         .star {
             position: absolute;
             background: white;
@@ -47,141 +40,136 @@
         }
 
         .text-glow {
-            text-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+            text-shadow: 0 0 30px rgba(168, 85, 247, 0.6);
         }
 
+        .btn-glow {
+            box-shadow: 0 4px 20px rgba(147, 51, 234, 0.4);
+        }
         .btn-glow:hover {
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
+            box-shadow: 0 4px 30px rgba(147, 51, 234, 0.6);
         }
     </style>
 </head>
-<body class="bg-slate-900 h-screen w-screen flex items-center justify-center relative select-none">
+<!-- 
+    Layout Fixes:
+    - h-[100dvh]: Gamit ang dynamic viewport height para iwas putol sa mobile browsers.
+    - overflow-x-hidden: Para walang horizontal scroll.
+-->
+<body class="bg-slate-900 w-full h-[100dvh] relative overflow-hidden">
 
-    <!-- Radial Gradient Background -->
-    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-slate-800 via-slate-900 to-black z-0"></div>
+    <!-- Fixed Background Layers (Z-0) -->
+    <!-- Gradient na mas malalim at sakop ang buong screen -->
+    <div class="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0f172a] to-black z-0"></div>
+    
+    <!-- Starfield (Z-0) -->
+    <div id="starfield" class="fixed inset-0 z-0 opacity-70 pointer-events-none"></div>
+    
+    <!-- Decorative Planet Blur (Z-0) - Repositioned for mobile friendliness -->
+    <div class="fixed -bottom-32 -right-32 w-64 h-64 md:w-96 md:h-96 bg-purple-600 rounded-full opacity-20 blur-[100px] z-0 pointer-events-none"></div>
+    <div class="fixed -top-32 -left-32 w-64 h-64 bg-blue-600 rounded-full opacity-10 blur-[100px] z-0 pointer-events-none"></div>
 
-    <!-- Starfield Container (Populated by JS) -->
-    <div id="starfield" class="absolute inset-0 z-0 opacity-80 pointer-events-none"></div>
-
-    <!-- Main Content Container -->
-    <div class="relative z-10 container mx-auto px-4 flex flex-col-reverse lg:flex-row items-center justify-center gap-12">
-        
-        <!-- Text Section -->
-        <div class="text-center lg:text-left text-white max-w-lg" data-parallax="0.02">
-            <h2 class="text-purple-400 font-bold tracking-widest uppercase mb-2 text-sm md:text-base">Status Update</h2>
-            <h1 class="text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-0 leading-none text-glow" style="font-size: 7rem;">MOVED</h1>
-            <h3 class="text-3xl md:text-4xl font-bold mb-4">We've launched to a new galaxy!</h3>
-            <p class="text-slate-400 text-lg mb-8 leading-relaxed">
-                This version of the website is no longer active. We have relocated our base to a new address. Please proceed to the new site.
-            </p>
+    <!-- Main Scrollable Content (Z-10) -->
+    <div class="relative z-10 w-full h-full overflow-y-auto overflow-x-hidden">
+        <div class="min-h-[100dvh] flex flex-col justify-center items-center py-12 px-6">
             
-            <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <a href="https://billie355.github.io/TimeOfLoveV2/" class="btn-glow px-8 py-4 bg-purple-600 hover:bg-purple-500 text-white rounded-full font-bold transition-all transform hover:-translate-y-1 inline-flex items-center justify-center gap-2 w-full sm:w-auto">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            <div class="container mx-auto flex flex-col items-center lg:flex-row lg:justify-center gap-8 lg:gap-20 max-w-6xl">
+                
+                <!-- Astronaut (Top on Mobile, Right on Desktop) -->
+                <!-- Pinalaki ko ng onti sa mobile (w-56) para mas visible, at w-96 sa desktop -->
+                <div class="astronaut-container order-1 lg:order-2 w-56 sm:w-72 lg:w-[500px] relative shrink-0 select-none pointer-events-none">
+                    <!-- Glow behind astronaut -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-purple-500/10 rounded-full blur-3xl -z-10"></div>
+                    
+                    <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-2xl">
+                        <g id="astronaut">
+                            <!-- Backpack -->
+                            <rect x="150" y="150" width="200" height="250" rx="40" fill="#e2e8f0" />
+                            <rect x="140" y="180" width="20" height="150" rx="10" fill="#cbd5e1" />
+                            <rect x="340" y="180" width="20" height="150" rx="10" fill="#cbd5e1" />
+                            <!-- Body -->
+                            <path d="M170,180 Q250,160 330,180 L330,380 Q250,420 170,380 Z" fill="#f8fafc" />
+                            <!-- Helmet -->
+                            <circle cx="250" cy="180" r="90" fill="#f8fafc" stroke="#e2e8f0" stroke-width="10"/>
+                            <ellipse cx="250" cy="175" rx="70" ry="50" fill="#1e293b" />
+                            <ellipse cx="230" cy="160" rx="20" ry="10" fill="rgba(255,255,255,0.2)" transform="rotate(-20 230 160)" />
+                            <!-- Details -->
+                            <rect x="210" y="290" width="80" height="60" rx="10" fill="#e2e8f0" />
+                            <circle cx="230" cy="320" r="5" fill="#ef4444" />
+                            <circle cx="250" cy="320" r="5" fill="#22c55e" />
+                            <circle cx="270" cy="320" r="5" fill="#3b82f6" />
+                            <!-- Limbs -->
+                            <path d="M170,220 Q120,280 140,320" fill="none" stroke="#f8fafc" stroke-width="35" stroke-linecap="round" />
+                            <path d="M330,220 Q380,280 360,320" fill="none" stroke="#f8fafc" stroke-width="35" stroke-linecap="round" />
+                            <circle cx="140" cy="320" r="22" fill="#cbd5e1" />
+                            <circle cx="360" cy="320" r="22" fill="#cbd5e1" />
+                            <!-- Tether -->
+                            <path d="M250,100 C250,50 350,50 350,0" fill="none" stroke="#64748b" stroke-width="4" stroke-dasharray="10,5" class="opacity-40" />
+                        </g>
                     </svg>
-                    Visit New Site
-                </a>
+                </div>
+
+                <!-- Text Content (Bottom on Mobile, Left on Desktop) -->
+                <div class="order-2 lg:order-1 text-center lg:text-left text-white max-w-xl w-full">
+                    <div class="space-y-2 mb-6">
+                        <h2 class="text-purple-400 font-bold tracking-[0.2em] uppercase text-xs sm:text-sm">Status Update</h2>
+                        
+                        <!-- Fixed Typography: Better scaling -->
+                        <h1 class="text-6xl sm:text-7xl lg:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 leading-tight text-glow py-2">
+                            MOVED
+                        </h1>
+                        
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-100">
+                            We've launched to a new galaxy!
+                        </h3>
+                    </div>
+
+                    <p class="text-slate-400 text-sm sm:text-base lg:text-lg leading-relaxed mb-8 max-w-md mx-auto lg:mx-0">
+                        This version of the website is no longer active. We have relocated our base to a new address. Please proceed to the new site.
+                    </p>
+                    
+                    <div class="flex flex-col items-center lg:items-start w-full">
+                        <!-- Button: w-full sa mobile pero may max-width para di sobrang lapad -->
+                        <a href="https://billie355.github.io/TimeOfLoveV2/" class="btn-glow group relative w-full sm:max-w-xs px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-2xl font-bold transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 overflow-hidden">
+                            <!-- Button sheen effect -->
+                            <div class="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 group-hover:animate-shine"></div>
+                            
+                            <span>Visit New Site</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
-
-        <!-- Astronaut SVG Graphic -->
-        <div class="astronaut-container w-64 md:w-96 relative" data-parallax="0.05">
-            <!-- Decorative circle behind astronaut -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-purple-500/10 rounded-full blur-3xl -z-10"></div>
-            
-            <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-2xl">
-                <g id="astronaut">
-                    <!-- Backpack -->
-                    <rect x="150" y="150" width="200" height="250" rx="40" fill="#e2e8f0" />
-                    <rect x="140" y="180" width="20" height="150" rx="10" fill="#cbd5e1" />
-                    <rect x="340" y="180" width="20" height="150" rx="10" fill="#cbd5e1" />
-                    
-                    <!-- Body -->
-                    <path d="M170,180 Q250,160 330,180 L330,380 Q250,420 170,380 Z" fill="#f8fafc" />
-                    
-                    <!-- Helmet Outline -->
-                    <circle cx="250" cy="180" r="90" fill="#f8fafc" stroke="#e2e8f0" stroke-width="10"/>
-                    
-                    <!-- Visor -->
-                    <ellipse cx="250" cy="175" rx="70" ry="50" fill="#1e293b" />
-                    
-                    <!-- Visor Reflection -->
-                    <ellipse cx="230" cy="160" rx="20" ry="10" fill="rgba(255,255,255,0.2)" transform="rotate(-20 230 160)" />
-                    
-                    <!-- Suit Details -->
-                    <rect x="210" y="290" width="80" height="60" rx="10" fill="#e2e8f0" /> <!-- Control panel -->
-                    <circle cx="230" cy="320" r="5" fill="#ef4444" /> <!-- Red button -->
-                    <circle cx="250" cy="320" r="5" fill="#22c55e" /> <!-- Green button -->
-                    <circle cx="270" cy="320" r="5" fill="#3b82f6" /> <!-- Blue button -->
-                    
-                    <!-- Arms -->
-                    <path d="M170,220 Q120,280 140,320" fill="none" stroke="#f8fafc" stroke-width="35" stroke-linecap="round" />
-                    <path d="M330,220 Q380,280 360,320" fill="none" stroke="#f8fafc" stroke-width="35" stroke-linecap="round" />
-                    
-                    <!-- Hands -->
-                    <circle cx="140" cy="320" r="22" fill="#cbd5e1" />
-                    <circle cx="360" cy="320" r="22" fill="#cbd5e1" />
-
-                    <!-- Wire/Tether -->
-                    <path d="M250,100 C250,50 350,50 350,0" fill="none" stroke="#64748b" stroke-width="4" stroke-dasharray="10,5" class="opacity-50" />
-                </g>
-            </svg>
-        </div>
-
     </div>
 
-    <!-- Planet (Decorative Background Element) -->
-    <div class="absolute -bottom-24 -right-24 w-64 h-64 md:w-96 md:h-96 bg-purple-900 rounded-full opacity-50 blur-xl z-0" data-parallax="0.01"></div>
-
     <script>
-        // 1. Generate Starfield
+        // Starfield Generation
         const starContainer = document.getElementById('starfield');
-        const starCount = 100;
+        const starCount = 150; // Increased star count for better bg
 
         for (let i = 0; i < starCount; i++) {
             const star = document.createElement('div');
             star.classList.add('star');
-            
-            // Random positioning
             const x = Math.random() * 100;
             const y = Math.random() * 100;
-            
-            // Random size (tiny to small)
-            const size = Math.random() * 3;
-            
-            // Random animation properties
-            const duration = 2 + Math.random() * 3; // between 2s and 5s
+            const size = Math.random() * 3; // Mixed sizes
+            const duration = 2 + Math.random() * 4;
             const delay = Math.random() * 5;
 
             star.style.left = `${x}%`;
             star.style.top = `${y}%`;
             star.style.width = `${size}px`;
             star.style.height = `${size}px`;
+            star.style.opacity = Math.random(); // Random opacity
             star.style.setProperty('--duration', `${duration}s`);
             star.style.setProperty('--delay', `${delay}s`);
 
             starContainer.appendChild(star);
         }
-
-        // 2. Parallax Effect
-        document.addEventListener('mousemove', (e) => {
-            const mouseX = e.clientX;
-            const mouseY = e.clientY;
-
-            // Select all elements with data-parallax attribute
-            const parallaxElements = document.querySelectorAll('[data-parallax]');
-
-            parallaxElements.forEach(el => {
-                const speed = el.getAttribute('data-parallax');
-                
-                // Calculate movement based on mouse position relative to center of screen
-                const x = (window.innerWidth / 2 - mouseX) * speed;
-                const y = (window.innerHeight / 2 - mouseY) * speed;
-
-                el.style.transform = `translateX(${x}px) translateY(${y}px)`;
-            });
-        });
     </script>
 </body>
 </html>
